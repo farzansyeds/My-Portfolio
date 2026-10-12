@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import Joyride from 'react-joyride';
 import './index.css';
 
 // 1. Updated Data Structure with Project Details
 const desktopFolders = [
   { 
     id: 'web', 
-    name: 'Web_Development', 
+    name: 'Web_Development_projects', 
     icon: '📁',
     files: [
       { 
@@ -113,9 +114,7 @@ const desktopFolders = [
                     'Applied TF-IDF and utilized the NLTK library for text preprocessing and feature extraction.',
                     'Gained practical experience handling sequence data and deep learning architectures for text classification.'
                   ],
-        screenshots: ['/screenshots/web/auth.png',
-                      '/screenshots/web/chat.png'
-                    ],
+        screenshots: [                    ],
         demoLink: null,
         githubLink: 'https://github.com/farzansyeds/minor-projects/tree/main/imdb-sentiment-analysis-rnn'
       },
@@ -129,15 +128,64 @@ const desktopFolders = [
                     'Implemented and compared Q-Learning (Off-Policy) and SARSA (On-Policy) Temporal Difference (TD) control algorithms.',
                     'Analyzed the behavioral trade-offs between safe paths and optimal paths during exploration and exploitation phases.'
                   ],
-        screenshots: ['/screenshots/web/auth.png',
-                      '/screenshots/web/chat.png'
-                    ],
+        screenshots: [],
         demoLink: null,
         githubLink: 'https://github.com/farzansyeds/minor-projects/tree/main/cliff-walking'
+      },
+      { 
+        id: 'ai5', 
+        name: 'AI-Autocorrect-tool', 
+        icon: '✍️',
+        description: 'An AI-driven autocorrect prototype that detects spelling and typing errors, applying and suggesting corrections based on calculated confidence scores.',
+        learnings: [
+                    'Engineered a ranking system for correction candidates utilizing edit-distance, word frequency, and keyboard-proximity signals.',
+                    'Integrated context signals to dynamically generate confidence scores for automated and suggested corrections.',
+                    'Built a responsive web interface featuring a custom personal dictionary and a user feedback loop to refine future suggestions.'
+                  ],
+        screenshots: ['/screenshots/ai/autocorrect.png'],
+        demoLink: null,
+        githubLink: 'https://github.com/farzansyeds/AutoCorrectApp'
+      },
+      { 
+        id: 'ai6', 
+        name: 'Text-Summarizer', 
+        icon: '🚀', 
+        description: 'An end-to-end NLP web application that performs abstractive text summarization on dialogues and articles using a fine-tuned Hugging Face t5-small model and an asynchronous FastAPI backend.',
+        learnings: [
+          'Fine-tuned the t5-small model using the Hugging Face Trainer API on the SAMSum dialogue dataset with sequence-to-sequence conditional generation.',
+          'Successfully optimized model performance, decreasing training loss from 3.59 to 0.35 over 6 epochs.',
+          'Engineered an inference pipeline featuring text preprocessing, tokenization with dynamic device assignment (CUDA/MPS/CPU), and beam search decoding.',
+          'Built and connected a web service utilizing an asynchronous FastAPI backend to serve REST endpoints alongside a lightweight HTML/CSS frontend.'
+        ],
+        screenshots: [],
+        // videoDemo: null,
+        demoLink: null,
+        githubLink: 'https://github.com/farzansyeds/TextSummarizer-App'
       }
-
-      
-
+    ]
+  },
+  { 
+    id: 'backend', 
+    name: 'Backend_System_projects', 
+    icon: '📁',
+    files: [
+      { 
+        id: 'backend1', 
+        name: 'Distributed Job Queue', 
+        icon: '⚙️',
+        // New project details added here:
+        description: 'A robust distributed job queue system built in Java to handle asynchronous task processing, decoupling, and message routing.',
+        learnings: [
+                    'Configured and managed message brokers utilizing RabbitMQ for efficient event-driven communication.',
+                    'Developed scalable producer APIs and consumer workers using the Spring Boot framework.',
+                    'Implemented dead-letter queues to ensure reliable error handling, message recovery, and fault tolerance for failed tasks.'
+                  ],
+        screenshots: ['/screenshots/web/login.png',
+                      
+                    ], 
+        demoLink: null,
+        githubLink: 'https://github.com/farzansyeds/Distributed-job-queue-project'
+      }
     ]
   }
   // (You can add the AI and Backend folders back here using this same structure!)
@@ -148,6 +196,41 @@ function App() {
   const [openFolder, setOpenFolder] = useState(null);
   const [openFile, setOpenFile] = useState(null); // Remembers which specific file is open
 
+  // 1. New State for the Tour
+  const [runTour, setRunTour] = useState(false);
+
+  // 2. Define the Tour Steps
+  const tourSteps = [
+    {
+      target: 'body', // Targets the whole screen
+      content: 'Welcome to my workspace! I am Farzan. Let me give you a quick tour of my OS.',
+      placement: 'center',
+    },
+    {
+      target: '.desktop-icon', // Targets the first folder on your desktop
+      content: 'Double-click any of these folders to open them and explore my projects.',
+      placement: 'right',
+    }
+  ];
+
+  // 3. Check Local Storage on Load
+  useEffect(() => {
+    const hasSeenTour = localStorage.getItem('hasSeenPortfolioTour');
+    if (!hasSeenTour) {
+      setRunTour(true); // If they haven't seen it, start the tour!
+    }
+  }, []);
+
+  // 4. Handle Tour Completion
+  const handleJoyrideCallback = (data) => {
+    const { status } = data;
+    // If the user clicks "Skip" or finishes the last step
+    if (status === 'finished' || status === 'skipped') {
+      setRunTour(false);
+      localStorage.setItem('hasSeenPortfolioTour', 'true'); // Save to memory
+    }
+  };
+
   // Function to completely close the window and reset everything
   const closeWindow = () => {
     setOpenFolder(null);
@@ -156,6 +239,21 @@ function App() {
 
   return (
     <div className="desktop-environment">
+
+      {/* 5. Inject the Joyride Component */}
+      <Joyride 
+        steps={tourSteps}
+        run={runTour}
+        callback={handleJoyrideCallback}
+        continuous={true}      /* Adds a "Next" button instead of just closing */
+        showSkipButton={true}  /* Lets users skip the tutorial */
+        styles={{
+          options: {
+            primaryColor: '#3498db', /* Matches our blue theme */
+            zIndex: 1000,            /* Ensures the tour sits on top of everything */
+          }
+        }}
+      />
       
       {/* The Desktop Icons */}
       {desktopFolders.map((folder) => (
