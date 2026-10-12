@@ -1,0 +1,263 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #2c3e50;
+  font-family: 'Segoe Print', 'Bradley Hand', cursive;
+  /* sans-serif; */
+  color:#ecf0f1;
+   /* white; */
+}
+
+.desktop-environment {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;    /*stacks items vertically*/
+  flex-wrap: wrap;           /*allows items to wrap to the next line if they exceed the container's width*/
+  align-content: flex-start; /*aligns columns to the left*/
+  padding: 20px;              /*space from screen edges*/
+  gap: 20px;                 /*space b/w the icons*/
+}
+
+.desktop-icon {
+  width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* Centers the icon and text together */
+  cursor: pointer;        /* Changes the mouse to a pointing hand */
+  padding: 10px;
+  border-radius: 5px;     /* Rounds the corners of the invisible box */
+  transition: background-color 0.2s; /* Makes the hover effect smooth */
+}
+
+/* What happens when the user hovers over an icon */
+.desktop-icon:hover {
+  background-color: rgba(255, 255, 255, 0.1); 
+  /* Adds a faint white highlight */
+}
+
+/* The folder emoji */
+.icon-emoji {
+  font-size: 60px; /* Makes the folder big */
+  margin-bottom: 5px;
+}
+
+/* The folder text */
+.icon-name {
+  text-align: center;
+  font-size: 14px;
+  overflow-wrap: break-word; /* Prevents long names from breaking the layout */
+  word-break: break-word; /* Prevents long names from breaking the layout */
+  max-width: 100%; /* Ensures the text doesn't overflow the icon box */
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8); /* Adds a drop shadow to make text pop against the background */
+}
+
+/* The Floating OS Window */
+.os-window {
+  position: absolute;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  /* This adds a smooth animation when the window resizes! */
+  transition: all 0.3s ease-in-out; 
+}
+
+.small-window {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the small box */
+  width: 600px;
+  height: 400px;
+  border: 1px solid #1a252f;
+  border-radius: 8px; /* Rounded corners for the floating box */
+}
+
+/* --- 3. The Full-Screen Project State --- */
+.full-screen-window {
+  top: 0;
+  left: 0;
+  transform: none; /* Removes the centering transform */
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0; /* Flat edges for full screen */
+  border: none;
+}
+
+/* The Title Bar */
+.window-title-bar {
+  background-color: #34495e;
+  color: white;
+  padding: 8px 15px;
+  display: flex;
+  justify-content: space-between; /* Pushes title to the left, X button to the right */
+  align-items: center;
+  font-family: sans-serif; /* Standard font for UI elements */
+  font-weight: bold;
+}
+
+/* The Close Button */
+.close-button {
+  background-color: #e74c3c; /* Red close button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-button:hover {
+  background-color: #c0392b; /* Darker red when hovered */
+}
+
+/* The area where the files will go */
+.window-content {
+  padding: 20px 40px;
+  flex-grow: 1; /* Makes this area take up all remaining space below the title bar */
+  overflow-y: auto; /* Adds a scrollbar if the content exceeds the window height */
+}
+
+
+
+/* Hover effect for files */
+.file-icon:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Dark transparent box because the window background is light */
+}
+
+/* --- VERTICAL FILE LIST STYLES --- */
+.file-list {
+  display: flex;
+  flex-direction: column; /* This forces the files to stack vertically */
+  gap: 5px;
+}
+
+.file-list-item {
+  display: flex;
+  flex-direction: row; /* Puts the icon and text side-by-side */
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.file-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.file-list-item .file-emoji {
+  font-size: 24px;
+  margin-right: 15px; /* Adds space between the icon and the name */
+}
+
+.file-list-item .file-name {
+  font-size: 14px;
+  color: #2c3e50;
+  font-family: sans-serif;
+}
+
+/* --- PROJECT PAGE STYLES --- */
+.project-page {
+  font-family: sans-serif;
+  color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 40px; /* Adds space at the bottom for the action buttons */
+  max-width: 900px;
+  margin: 0 auto; /* Centers the project page */
+}
+
+.project-page h2 {
+  font-size: 18px;
+  border-bottom: 1px solid #bdc3c7;
+  padding-bottom: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.project-page p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.back-button {
+  align-self: flex-start;
+  padding: 5px 10px;
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.back-button:hover {
+  background-color: #bdc3c7;
+}
+
+.screenshot-gallery {
+  display: flex;
+  gap: 10px;
+}
+
+.screenshot-gallery {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap; /* Forces images to drop to the next line if the screen is too narrow */
+  margin-top: 10px;
+}
+
+.project-screenshot {
+  width: 350px; /* Sets a uniform base width for the images */
+  max-width: 100%; /* Ensures images never break out of their container on small screens */
+  height: auto; /* Maintains the original aspect ratio so images don't look squished */
+  border-radius: 6px; /* Softly rounds the corners */
+  border: 1px solid #bdc3c7; /* Adds a subtle border */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Adds a soft drop-shadow */
+  transition: transform 0.2s; /* Prepares a hover animation */
+}
+
+/* Adds a slight zoom effect when you hover over an image */
+.project-screenshot:hover {
+  transform: scale(1.02);
+}
+
+.project-links {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+.action-button {
+  padding: 10px 15px;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none; /* Removes the underline from the link */
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.action-button:hover {
+  background-color: #2980b9;
+}
+
+/* Styling for the bullet point list */
+.learnings-list {
+  margin-top: 10px;
+  padding-left: 20px; /* Gives the bullets room to breathe on the left */
+}
+
+.learnings-list li {
+  font-size: 15px;
+  line-height: 1.6; /* Adds spacing between the lines to make it easy to read */
+  margin-bottom: 8px; /* Adds space between each bullet point */
+  color: #2c3e50;
+}
