@@ -12,6 +12,7 @@
   "dependencies": {
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-draggable": "^4.7.2",
     "react-joyride": "^2.6.2"
   },
   "devDependencies": {
